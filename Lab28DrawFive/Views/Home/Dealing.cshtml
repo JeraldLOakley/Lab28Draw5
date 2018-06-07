@@ -1,4 +1,4 @@
-﻿
+﻿@using Lab28DrawFive.Models;
 @{
     ViewBag.Title = "The cards have been dealt!";
 }
@@ -20,20 +20,18 @@ else
 
 
 
-    for (int i = 0; i < ViewBag.Cards.Count; i++)
+    for (int i = 0; i < ViewBag.Hand.Length; i++)
     {
-        <div>
-            <span>
-                <img src="@ViewBag.Cards[i].image" width="120" />
+        Card c = ViewBag.Hand[i];
+                <img src="@c.Image" width="120" />
 
 
-                @ViewBag.Cards[i].value @ViewBag.Cards[i].suit
-            </span>
-        </div>
+                @c.Value @c.Suit
+        
     }
     <div>
-        @ViewBag.Remaining
+       Cards remaining in deck @ViewBag.Remaining
     </div>
-    <div class="btn btn-primary">@Html.ActionLink("Shuffle deck", "NewDeck")</div>
-    <div class="btn btn-primary">@Html.ActionLink("Draw 5", "Dealing")</div>
+    <div class="btn btn-default">@Html.ActionLink("Shuffle deck", "NewDeck")</div>
+    <div class="btn btn-default">@Html.ActionLink("Draw 5", "Dealing")</div>
 }

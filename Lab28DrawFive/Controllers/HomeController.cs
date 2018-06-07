@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Lab28DrawFive.Models;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -64,6 +65,7 @@ namespace Lab28Draw.Controllers
 			HttpWebRequest WR = WebRequest.CreateHttp($"https://deckofcardsapi.com/api/deck/{ID}/draw/?count=5");
 			WR.UserAgent = ".Net Framework Test Client";
 			
+			
 			HttpWebResponse Response;
 			try
 			{
@@ -91,6 +93,17 @@ namespace Lab28Draw.Controllers
 				JObject JsonData = JObject.Parse(DeckData);
 				ViewBag.Cards = JsonData["cards"];
 				ViewBag.Remaining = JsonData["remaining"];
+				JArray CardArray = (JArray)JsonData["cards"];
+					Card[] hand = new Card[CardArray.Count];
+
+				for (int i = 0; i < hand.Length; i++)
+				{
+					hand[i] = new Card();
+					hand[i].Image = (string)CardArray[i]["image"];
+					hand[i].Value = (string)CardArray[i]["value"];
+					hand[i].Suit = (string)CardArray[i]["suit"];
+					ViewBag.Hand = hand;
+				}
 				
 			}
 			catch (Exception e)
@@ -99,7 +112,7 @@ namespace Lab28Draw.Controllers
 				ViewBag.ErrorDescription = e.Message;
 				return View();
 			}
-
+			
 			return View();
 		}
 
